@@ -1,26 +1,48 @@
-const speed = document.querySelector('.speed');
-const bar = document.querySelector('.speed-bar');
-const video = document.querySelector('.flex');
-function handleMove(e) {
-	const y = e.pageY - this.offsetTop;
-	const percent = y / this.offsetHeight;
+const video = document.querySelector('.player__video');
+const toggle = document.querySelector('.toggle');
+const progressFilled = document.querySelector('.progress__filled');
+const volume = document.getElementById('volume');
+const playbackSpeed = document.getElementById('playbackSpeed');
 
-	const min = 0.4;
-	const max = 4;
-
-	const playbackRate = percent * (max-min) + min;
-
-	bar.style.height = `${percent*100}%`;
-	bar.textContent = `${playbackRate.toFixed(2)}x`;
-	
-	video.playbackRate = playbackRate;
-	
+function togglePlay() {
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
 }
-speed.addEventListener('mousemove',handleMove);
 
+function updateButton() {
+    toggle.textContent = video.paused ? '►' : '❚ ❚';
+}
 
+function updateProgress() {
+    const percent = (video.currentTime / video.duration) * 100;
+    progressFilled.style.width = `${percent}%`;
+}
 
+toggle.addEventListener('click', togglePlay);
 
+video.addEventListener('play', updateButton);
+video.addEventListener('pause', updateButton);
+video.addEventListener('timeupdate', updateProgress);
 
+volume.addEventListener('input', function () {
+    video.volume = this.value;
+});
 
+playbackSpeed.addEventListener('input', function () {
+    video.playbackRate = this.value;
+});
 
+document
+    .querySelector('[data-skip="-10"]')
+    .addEventListener('click', function () {
+        video.currentTime -= 10;
+    });
+
+document
+    .querySelector('[data-skip="25"]')
+    .addEventListener('click', function () {
+        video.currentTime += 25;
+    });
