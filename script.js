@@ -1,9 +1,26 @@
-const inputs = document.querySelectorAll('.controls input');
+const speed = document.querySelector('.speed');
+const bar = document.querySelector('.speed-bar');
+const video = document.querySelector('.flex');
+function handleMove(e) {
+	const y = e.pageY - this.offsetTop;
+	const percent = y / this.offsetHeight;
 
-    function handleUpdate() {
-      const suffix = this.dataset.sizing || '';
-      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
-    }
+	const min = 0.4;
+	const max = 4;
 
-    inputs.forEach(input => input.addEventListener('change', handleUpdate));
-    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+	const playbackRate = percent * (max-min) + min;
+
+	bar.style.height = `${percent*100}%`;
+	bar.textContent = `${playbackRate.toFixed(2)}x`;
+	
+	video.playbackRate = playbackRate;
+	
+}
+speed.addEventListener('mousemove',handleMove);
+
+
+
+
+
+
+
