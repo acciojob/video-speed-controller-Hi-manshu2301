@@ -36,13 +36,13 @@ playbackSpeed.addEventListener('input', function () {
 });
 
 document
-    .querySelector('[data-skip="-10"]')
+    .querySelector('.rewind')
     .addEventListener('click', function () {
         video.currentTime -= 10;
     });
 
 document
-    .querySelector('[data-skip="25"]')
+    .querySelector('.forward')
     .addEventListener('click', function () {
         video.currentTime += 25;
     });
